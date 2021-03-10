@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">registro persona movil 2021</string>
+    <string name="datos_persona">Datos de la persona</string>
+    <string name="digite_numero_documento">Digite el nùmero de documento</string>
+    <string name="digite_nombre">Digite un nombre</string>
+    <string name="digite_apellido">Digite un apellido</string>
+    <string name="listado_persona">Listado de personas</string>
+    <string name="registro_persona">Registro persona</string>
+    <string name="insertar">Insertar</string>
+    <string name="guardar">Guardar</string>
+    <string name="sin_infomacion">No existen personas registradas en el sistema</string>
+</resources>
