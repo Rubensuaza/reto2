@@ -1,5 +1,6 @@
 package co.com.registropersonamovil2021;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Person;
@@ -14,6 +15,9 @@ import butterknife.ButterKnife;
 import co.com.registropersonamovil2021.entity.Persona;
 import co.com.registropersonamovil2021.persistencia.Connection;
 import co.com.registropersonamovil2021.util.ActionBarUtil;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RegistroPersonaActivity extends AppCompatActivity {
     @BindView(R.id.txt_documento)
@@ -50,12 +54,32 @@ public class RegistroPersonaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void cargarInformacion() {
         persona.setNumeroDocumentoIdentidad(txtDocumento.getText().toString());
         persona.setNombrePersona(txtNombre.getText().toString());
         persona.setApellidoPersona(txtApellido.getText().toString());
-        InsertarInformacion insertarInformacion = new InsertarInformacion();
-        insertarInformacion.execute(persona);
+        // se crea diálogo de confirmación
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroPersonaActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.confirm);
+        builder.setMessage(R.string.confirm_message_guardar_informacion);
+        builder.setPositiveButton(R.string.confirm_action, (dialog, which) ->  insertarInformacion() );
+        builder.setNegativeButton(R.string.cancelar, (dialog, which) ->  dialog.cancel() );
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+       // Forma legacy
+        /*InsertarInformacion insertarInformacion = new InsertarInformacion();
+        insertarInformacion.execute(persona);*/
+    }
+    // avoid leak application
+    private void insertarInformacion() {
+        Observable.fromCallable(()-> {
+            Connection.getDb(getApplicationContext()).getPersonaDao().insert(persona);
+            finish();
+            return persona;
+        }).subscribeOn(Schedulers.computation()).subscribe();
     }
 
 
@@ -65,7 +89,7 @@ public class RegistroPersonaActivity extends AppCompatActivity {
         return true;
     }
 
-    class InsertarInformacion extends AsyncTask<Persona, Void, Void>{
+    /*class InsertarInformacion extends AsyncTask<Persona, Void, Void>{
 
         @Override
         protected Void doInBackground(Persona... personas) {
@@ -78,7 +102,7 @@ public class RegistroPersonaActivity extends AppCompatActivity {
             finish();
             super.onPostExecute(aVoid);
         }
-    }
+    }*/
 
 
 }
