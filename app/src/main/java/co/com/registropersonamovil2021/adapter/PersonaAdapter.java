@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ public class PersonaAdapter extends BaseAdapter {
 
     private final LayoutInflater inflater;
     private Context context;
+
+
 
     private final List<Persona> personas;
 
@@ -51,6 +54,7 @@ public class PersonaAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         final Persona persona=getItem(position);
         ViewHolder holder;
         if (convertView != null) {
@@ -73,6 +77,8 @@ public class PersonaAdapter extends BaseAdapter {
 
             }
         });
+
+
 
 
         return convertView;

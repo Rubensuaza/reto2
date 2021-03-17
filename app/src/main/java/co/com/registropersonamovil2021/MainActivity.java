@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
    private List<Persona> listaPersonas;
    @BindView(R.id.listViewPersonas)
    ListView listViewPersonas;
-   @BindView(R.id.imageButton)
-   ImageButton eliminar;
    private PersonaAdapter personaAdapter;
 
     @Override
@@ -37,12 +35,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBarUtil.getInstance(this, false).setToolBar(getString(R.string.listado_persona));
         listaPersonas = new ArrayList<>();
         loadInformation();
-        eliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
 
     private void loadInformation() {
