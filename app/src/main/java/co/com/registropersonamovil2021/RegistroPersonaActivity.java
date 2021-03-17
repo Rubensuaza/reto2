@@ -20,6 +20,8 @@ import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RegistroPersonaActivity extends AppCompatActivity {
+
+
     @BindView(R.id.txt_documento)
     EditText txtDocumento;
 
@@ -36,7 +38,13 @@ public class RegistroPersonaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_persona);
         ButterKnife.bind(this);
-        persona = new Persona();
+        persona=(Persona) getIntent().getSerializableExtra("persona");
+        if(persona!=null){
+            txtDocumento.setText(persona.getNumeroDocumentoIdentidad());
+            txtNombre.setText(persona.getNombrePersona());
+            txtApellido.setText(persona.getApellidoPersona());
+
+        }
         ActionBarUtil.getInstance(this, true).setToolBar(getString(R.string.registro_persona), getString(R.string.insertar));
     }
 
@@ -56,31 +64,69 @@ public class RegistroPersonaActivity extends AppCompatActivity {
 
 
     private void cargarInformacion() {
+        if (persona!=null) {
+
         persona.setNumeroDocumentoIdentidad(txtDocumento.getText().toString());
         persona.setNombrePersona(txtNombre.getText().toString());
         persona.setApellidoPersona(txtApellido.getText().toString());
-        // se crea diálogo de confirmación
         AlertDialog.Builder builder = new AlertDialog.Builder(RegistroPersonaActivity.this);
         builder.setCancelable(false);
         builder.setTitle(R.string.confirm);
         builder.setMessage(R.string.confirm_message_guardar_informacion);
-        builder.setPositiveButton(R.string.confirm_action, (dialog, which) ->  insertarInformacion() );
+        builder.setPositiveButton(R.string.confirm_action, (dialog, which) ->  actualizarInformacion() );
         builder.setNegativeButton(R.string.cancelar, (dialog, which) ->  dialog.cancel() );
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show();}
+        else{
+            Persona newPersona=new Persona();
+            newPersona.setNumeroDocumentoIdentidad(txtDocumento.getText().toString());
+            newPersona.setNombrePersona(txtNombre.getText().toString());
+            newPersona.setApellidoPersona(txtApellido.getText().toString());
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegistroPersonaActivity.this);
+            builder.setCancelable(false);
+            builder.setTitle(R.string.confirm);
+            builder.setMessage(R.string.confirm_message_guardar_informacion);
+            builder.setPositiveButton(R.string.confirm_action, (dialog, which) ->  insertarInformacion(newPersona) );
+            builder.setNegativeButton(R.string.cancelar, (dialog, which) ->  dialog.cancel() );
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+
+        }
+
+       }
+
 
        // Forma legacy
         /*InsertarInformacion insertarInformacion = new InsertarInformacion();
         insertarInformacion.execute(persona);*/
-    }
+
     // avoid leak application
-    private void insertarInformacion() {
-        Observable.fromCallable(()-> {
-            Connection.getDb(getApplicationContext()).getPersonaDao().insert(persona);
-            finish();
-            return persona;
-        }).subscribeOn(Schedulers.computation()).subscribe();
-    }
+    private void insertarInformacion(Persona persona1) {
+            Observable.fromCallable(() -> {
+                Connection.getDb(getApplicationContext()).getPersonaDao().insert(persona1);
+                finish();
+                return persona1;
+            }).subscribeOn(Schedulers.computation()).subscribe();
+
+        }
+
+    private void actualizarInformacion(){
+            Observable.fromCallable(() -> {
+                Connection.getDb(getApplicationContext()).getPersonaDao().update(persona);
+                finish();
+                return persona;
+            }).subscribeOn(Schedulers.computation()).subscribe();
+
+        }
+
+
+
+
+
+
+
+
 
 
     @Override

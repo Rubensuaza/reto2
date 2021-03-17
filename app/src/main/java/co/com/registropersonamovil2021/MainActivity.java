@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
    private List<Persona> listaPersonas;
    @BindView(R.id.listViewPersonas)
    ListView listViewPersonas;
+   @BindView(R.id.imageButton)
+   ImageButton eliminar;
    private PersonaAdapter personaAdapter;
 
     @Override
@@ -33,8 +36,13 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ActionBarUtil.getInstance(this, false).setToolBar(getString(R.string.listado_persona));
         listaPersonas = new ArrayList<>();
-
         loadInformation();
+        eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void loadInformation() {
@@ -46,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
             listViewPersonas.setAdapter(personaAdapter);
         }
     }
+
+
+
+
 
 
     public void goToRegistroPersona(View view) {
