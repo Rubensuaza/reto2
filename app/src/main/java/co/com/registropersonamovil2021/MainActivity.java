@@ -1,10 +1,12 @@
 package co.com.registropersonamovil2021;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,6 +20,8 @@ import co.com.registropersonamovil2021.adapter.PersonaAdapter;
 import co.com.registropersonamovil2021.entity.Persona;
 import co.com.registropersonamovil2021.persistencia.Connection;
 import co.com.registropersonamovil2021.util.ActionBarUtil;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
    @BindView(R.id.listViewPersonas)
    ListView listViewPersonas;
    private PersonaAdapter personaAdapter;
+
+    Persona persona;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
     public void goToRegistroPersona(View view) {
         Intent intent = new Intent(this,RegistroPersonaActivity.class);
         startActivity(intent);
@@ -62,5 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         loadInformation();
     }
+
+
 
 }

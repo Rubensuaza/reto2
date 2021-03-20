@@ -3,12 +3,14 @@ package co.com.registropersonamovil2021;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Person;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,20 +18,20 @@ import co.com.registropersonamovil2021.entity.Persona;
 import co.com.registropersonamovil2021.persistencia.Connection;
 import co.com.registropersonamovil2021.util.ActionBarUtil;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RegistroPersonaActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.txt_documento)
-    EditText txtDocumento;
+     @BindView(R.id.txt_documento)
+     EditText txtDocumento;
 
-    @BindView(R.id.txt_nombre)
-    EditText txtNombre;
+     @BindView(R.id.txt_nombre)
+     EditText txtNombre;
 
-    @BindView(R.id.txt_apellido)
-    EditText txtApellido;
+     @BindView(R.id.txt_apellido)
+     EditText txtApellido;
+
 
     Persona persona;
 
@@ -61,6 +63,8 @@ public class RegistroPersonaActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
     private void cargarInformacion() {
@@ -118,14 +122,7 @@ public class RegistroPersonaActivity extends AppCompatActivity {
                 return persona;
             }).subscribeOn(Schedulers.computation()).subscribe();
 
-        }
-
-
-
-
-
-
-
+    }
 
 
 
@@ -134,6 +131,11 @@ public class RegistroPersonaActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+
+
+
+
 
     /*class InsertarInformacion extends AsyncTask<Persona, Void, Void>{
 
@@ -149,6 +151,24 @@ public class RegistroPersonaActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
         }
     }*/
+
+
+   /* public static void MessageValidate() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegistroPersonaActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.confirm);
+        builder.setMessage(R.string.confirm_message_eliminar_informacion);
+        builder.setPositiveButton(R.string.confirm_action, (dialog, which) ->  deletePersona() );
+        builder.setNegativeButton(R.string.cancelar, (dialog, which) ->  dialog.cancel() );
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+ */
+
+
+
 
 
 }
